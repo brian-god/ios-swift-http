@@ -2,7 +2,7 @@
 // https://docs.swift.org/swift-book
 import Alamofire
 import Foundation
-class NetworkManager{
+public class NetworkManager{
     var baseURL:String = ""
     var token:String = ""
     var authPrefix:String = ""

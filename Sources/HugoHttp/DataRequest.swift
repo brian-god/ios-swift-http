@@ -31,3 +31,18 @@ extension DataRequest {
         }
     }
 }
+
+// 扩展 Encodable 以转换为字典
+public extension Encodable {
+    func toDictionary() -> [String: Any]? {
+        do {
+            let data = try JSONEncoder().encode(self)
+            if let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] {
+                return dictionary
+            }
+        } catch {
+            print("Error converting struct to dictionary: \(error)")
+        }
+        return nil
+    }
+}

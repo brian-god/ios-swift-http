@@ -20,11 +20,11 @@ struct DefResponse: Decodable {
     let msg: String
     let reason: String
 }
-enum APIResult<Value> {
+public enum APIResult<Value> {
     case success(Value)
     case failure(Int, String, String)
 }
 // 后台返回的打他为{}的时候使用
-struct NullData:Codable{
+public struct NullData:Codable{
     
 }

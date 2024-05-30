@@ -8,40 +8,40 @@ class NetworkManager{
     var authPrefix:String = ""
     var authKey:String = "Authorization"
     var successCode:Int = 200
-    static let shared = NetworkManager()
+    public static let shared = NetworkManager()
     private init() {}
     
     
     //get请求
-    func get<T: Decodable>(_ endpoint: String, parameters: Parameters? = nil, headers: HTTPHeaders? = nil,isAuth:Bool = true, completion: @escaping (APIResult<T>) -> Void) {
+    public func get<T: Decodable>(_ endpoint: String, parameters: Parameters? = nil, headers: HTTPHeaders? = nil,isAuth:Bool = true, completion: @escaping (APIResult<T>) -> Void) {
         let reqHeaders = self.buildHeaders(headers: headers,auth: isAuth)
         AF.request(makeURL(endpoint), method: .get, parameters: parameters, headers: reqHeaders)
             .validate()
             .responseAPIResult(successCode:self.successCode,completionHandler: completion)
     }
     //post请求
-    func post<T: Decodable,R: Encodable>(_ endpoint: String, parameters: R? = nil, headers: HTTPHeaders? = nil,isAuth:Bool = true, completion: @escaping (APIResult<T>) -> Void) {
+    public func post<T: Decodable,R: Encodable>(_ endpoint: String, parameters: R? = nil, headers: HTTPHeaders? = nil,isAuth:Bool = true, completion: @escaping (APIResult<T>) -> Void) {
         let reqHeaders = self.buildHeaders(headers: headers,auth: isAuth)
         AF.request(makeURL(endpoint), method: .post, parameters: parameters,encoder:JSONParameterEncoder.default, headers: reqHeaders)
             .validate()
             .responseAPIResult(successCode:self.successCode,completionHandler: completion)
     }
     //put请求
-    func put<T: Decodable,R: Encodable>(_ endpoint: String, parameters: R? = nil, headers: HTTPHeaders? = nil,isAuth:Bool = true, completion: @escaping (APIResult<T>) -> Void) {
+    public func put<T: Decodable,R: Encodable>(_ endpoint: String, parameters: R? = nil, headers: HTTPHeaders? = nil,isAuth:Bool = true, completion: @escaping (APIResult<T>) -> Void) {
         let reqHeaders = self.buildHeaders(headers: headers,auth: isAuth)
         AF.request(makeURL(endpoint), method: .put, parameters: parameters,encoder:JSONParameterEncoder.default, headers: reqHeaders)
             .validate()
             .responseAPIResult(successCode:self.successCode,completionHandler: completion)
     }
     //delete请求
-    func delete<T: Decodable>(_ endpoint: String, parameters: Parameters? = nil, headers: HTTPHeaders? = nil,isAuth:Bool = true, completion: @escaping (APIResult<T>) -> Void) {
+    public func delete<T: Decodable>(_ endpoint: String, parameters: Parameters? = nil, headers: HTTPHeaders? = nil,isAuth:Bool = true, completion: @escaping (APIResult<T>) -> Void) {
         let reqHeaders = self.buildHeaders(headers: headers,auth: isAuth)
         AF.request(makeURL(endpoint), method: .delete, parameters: parameters, headers: reqHeaders)
             .validate()
             .responseAPIResult(successCode:self.successCode,completionHandler: completion)
     }
     //构建header
-    public func buildHeaders(headers: HTTPHeaders?=nil,auth:Bool = false) -> HTTPHeaders{
+    private func buildHeaders(headers: HTTPHeaders?=nil,auth:Bool = false) -> HTTPHeaders{
         var req_header:HTTPHeaders = []
         if headers != nil{
             req_header = headers!;
@@ -61,7 +61,7 @@ class NetworkManager{
     }
     
     // Alamofire请求方法
-   func request<T: Codable>(endpoint: String, method: HTTPMethod = .get, parameters: Parameters? = nil, headers: HTTPHeaders? = nil,isAuth:Bool = true, completion: @escaping (APIResult<T>) -> Void) {
+    public func request<T: Codable>(endpoint: String, method: HTTPMethod = .get, parameters: Parameters? = nil, headers: HTTPHeaders? = nil,isAuth:Bool = true, completion: @escaping (APIResult<T>) -> Void) {
        let reqHeaders = self.buildHeaders(headers: headers,auth: isAuth)
        AF.request(makeURL(endpoint), method: method, parameters: parameters,headers: reqHeaders).responseAPIResult(successCode:self.successCode,completionHandler: completion)
    }
